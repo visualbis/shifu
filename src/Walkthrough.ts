@@ -81,7 +81,10 @@ export class Walkthrough {
       this._config[this._currentStepIndex]
     );
     //  Call onExit event
-    this._onExit();
+    if (this._onExit) {
+      this._onExit();
+    }
+    
 
     // destroy existing tooltip
     this.destroyHelper();
