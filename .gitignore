@@ -62,3 +62,7 @@ typings/
 
 # npm token
 .npmrc
+
+# dist
+dist
+
