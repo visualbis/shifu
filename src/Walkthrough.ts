@@ -80,7 +80,7 @@ export class Walkthrough {
       this._currentElement,
       this._config[this._currentStepIndex]
     );
-    //  Call onEcit event
+    //  Call onExit event
     this._onExit();
 
     // destroy existing tooltip
