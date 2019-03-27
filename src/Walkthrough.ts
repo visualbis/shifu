@@ -41,6 +41,12 @@ export class Walkthrough {
     nextButton.addEventListener("click", () => this.goToNextStep());
     prevButton.addEventListener("click", () => this.goToPreviousStep());
     closeButton.addEventListener("click", () => {
+      const { onExit } = this._config[this._currentStepIndex];
+
+      if (onExit) {
+        onExit();
+      }  
+
       this.exit();
     });
   }
