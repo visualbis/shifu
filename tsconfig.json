@@ -1,0 +1,19 @@
+{
+  "include": [
+    "src/**/*"
+  ],
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "module": "UMD",
+    "target": "es5",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": [
+      "dom",
+      "es7"
+    ],
+    "declaration": true
+  }
+}

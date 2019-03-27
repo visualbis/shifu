@@ -1,0 +1,193 @@
+/* Shifu Styles */
+.shifu-overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    visibility: collapse;
+    background-color: rgba(20, 20, 20, 0.8);
+    transition: 0.3s visibility;
+    z-index: 100;
+}
+.shifu-overlay::before, .shifu-overlay::after {
+    height: 8px;
+    width: 8px;
+    content: '';
+    position: absolute;
+    z-index: 1000;
+    display: block;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAASWSDLAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAACFQTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAbdFIwQAAAAt0Uk5TzHqbADG8ixgIOaviFPSDAAAAXUlEQVR4nHXLuw2AMAyEYTs8FkhDzwg3gidAomGD9BkhI7ACg4KQwl2Dq//TyWY8Z6YMduDD9nTHXEEsII5GTAHiAtGHFzsEp8CboEBQBQmCUbEqQiAvMFcMv8iCG6TGKaI5WxZzAAAAAElFTkSuQmCC');
+    background-size: 4px;
+    background-position: left top;
+    background-repeat: no-repeat;
+    opacity: 0.8;
+}
+.shifu-overlay.top::before {
+    top: 100%;
+}
+.shifu-overlay.top::after {
+    top: 100%;
+    left: 100%;
+    margin-left: -8px;
+    transform: rotate(-270deg);
+}
+.shifu-overlay.bottom::before {
+    top: -8px;
+    transform: rotate(-90deg);
+}
+.shifu-overlay.bottom::after {
+    top: -8px;
+    left: 100%;
+    margin-left: -8px;
+    transform: rotate(-180deg);
+}
+.shifu-overlay.visible {
+    visibility: visible;
+}
+.shifu-window {
+    min-height: 72px;
+    width: 240px;
+    background-color: #FFF;
+    border-radius: 2px;
+    box-shadow: 0 0 4px #DDD;
+    visibility: collapse;
+    z-index: 110;
+    font-family: "Segoe UI Web (West European)",Segoe UI,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;
+}
+.shifu-body {
+    padding: 16px;
+    position: relative;
+    background-color: #FFF;
+    z-index: 111;
+}
+.shifu-footer {
+    height: 38px;
+    padding: 0 16px;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 111;
+    position: relative;
+}
+.shifu-body h4 {
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    font-weight: 300;
+    color: #333;
+    line-height: 30px;
+}
+.shifu-body .content {
+    margin: 0;
+    padding: 0;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 300;
+    color: #333;
+}
+.shifu-body .content ul, .shifu-body .content p {
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 300;
+    color: #333;
+}
+.shifu-body .content ul {
+    padding-left: 20px;
+    margin-top: 0;
+}
+.shifu-body .content p {
+    margin-top: 0;
+}
+.shifu-window button {
+    font-size: 14px;
+    font-weight: 300;
+    color: #444;
+    height: 38px;
+    border: 0;
+    outline: 0;
+    padding: 0 8px;
+    background-color: transparent;
+}
+.shifu-window button.next-step {
+    color: #0078d4;
+}
+.shifu-window button:hover {
+    background-color: #eaeaea;
+    cursor: pointer;
+}
+.shifu-window button[disabled="disabled"], .shifu-window button[disabled="disabled"]:hover {
+    background-color: inherit;
+    cursor: default;
+    color: #989898;
+}
+.shifu-arrow {
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    box-shadow: inherit;
+    box-sizing: border-box;
+    transform: rotate(45deg);
+    height: 16px;
+    width: 16px;
+    margin-top: -8px;
+    border: inherit;
+    z-index: 110;
+}
+.shifu-close {
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    padding: 2px;
+    border: inherit;
+    z-index: 112;
+    right: 0;
+    top: 0;
+    opacity: 0.7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s all;
+}
+.shifu-number {
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    padding: 2px;
+    border: inherit;
+    z-index: 112;
+    left: -12px;
+    top: -12px;
+    background-color: #0078d4;
+    color: #FFF;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    justify-content: center;
+    transition: 0.2s all;
+}
+.shifu-close:hover {
+    opacity: 1.0;
+    background-color: #F4F4F4;
+    cursor: pointer;
+}
+.shifu-close img {
+    height: 12px;
+    width: 12px;
+}
+.shifu-target {
+    position: relative;
+    z-index: 110;
+}
+.shifu-helper {
+    box-sizing: content-box;
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    box-shadow: 0 0 16px #222;
+    z-index: 100;
+    width: 100px;
+    height: 100px;
+    visibility: collapse;
+}
