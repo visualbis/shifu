@@ -16,7 +16,8 @@ export class Walkthrough {
   private _tooltipNumber: any = null;
   private _tooltipInstance: any = null;
   private _helperInstance: any = null;
-  private _onExit: any = null;
+  private _onExit: any = () => {};
+  private _resizeTimeout: number = 200;
 
   constructor() {
     this._tooltipWindow = document.querySelector("#tooltip");
@@ -32,6 +33,31 @@ export class Walkthrough {
     );
     this._tooltipNumber = this._tooltipWindow.querySelector(".shifu-number");
     this.hookListeners();
+    this.handleWindowResize();
+  }
+
+  start(config: [any], { start, onExit, resizeTimeout }: any) {
+    this._config = config;
+    this._onExit = onExit;
+    this._currentStepIndex = start || 0;
+    this._resizeTimeout = resizeTimeout;
+    this.goToStepNumber(this._currentStepIndex);
+  }
+
+  handleWindowResize() {
+    let resizeTimer;
+    window.onresize = () => {
+      clearTimeout(resizeTimer);
+
+      // destroy existing tooltip
+      this.destroyHelper();
+      this.destroyTooltip();
+
+      resizeTimer = setTimeout(() => {
+        // gotostep number again
+        this.goToStepNumber(this._currentStepIndex);
+      }, 500);
+    };
   }
 
   hookListeners() {
@@ -41,16 +67,7 @@ export class Walkthrough {
 
     nextButton.addEventListener("click", () => this.goToNextStep());
     prevButton.addEventListener("click", () => this.goToPreviousStep());
-    closeButton.addEventListener("click", () => {
-      this.exit();
-    });
-  }
-
-  start(config: [any], { start, onExit }: any) {
-    this._config = config;
-    this._onExit = onExit;
-    this._currentStepIndex = start || 0;
-    this.goToStepNumber(this._currentStepIndex);
+    closeButton.addEventListener("click", () => this.exit());
   }
 
   goToNextStep() {
@@ -80,15 +97,19 @@ export class Walkthrough {
       this._currentElement,
       this._config[this._currentStepIndex]
     );
-    //  Call onExit event
-    if (this._onExit) {
-      this._onExit();
-    }
-    
 
     // destroy existing tooltip
     this.destroyHelper();
     this.destroyTooltip();
+
+    // recreate dom elements to renew handlers
+    this.recreateElement(this._tooltipNextButton);
+    this.recreateElement(this._tooltipPrevButton);
+    this.recreateElement(this._tooltipCloseButton);
+
+    //  Call onExit event
+    this._onExit({ stepIndex: this._currentStepIndex });
+
     this._currentStepIndex = 0;
     return;
   }
@@ -109,7 +130,6 @@ export class Walkthrough {
 
     // decrement step
     this._currentStepIndex -= 1;
-    console.log("Moving to previous step", this._currentStepIndex);
     this.goToStepNumber(this._currentStepIndex);
   }
 
@@ -187,26 +207,23 @@ export class Walkthrough {
   showTooltip(element: any, config: any) {
     const arrowElement = document.querySelector(".shifu-arrow");
 
-    this._tooltipInstance = new Popper(
-      element,
-      this._tooltipWindow,
-      {
-        placement: config.placement || "bottom",
-        onCreate: () => {
-          this.buildTooltipContent();
+    this._tooltipInstance = new Popper(element, this._tooltipWindow, {
+      placement: config.placement || "bottom",
+      eventsEnabled: false,
+      onCreate: () => {
+        this.buildTooltipContent();
+      },
+      modifiers: {
+        arrow: {
+          element: arrowElement
         },
-        modifiers: {
-          arrow: {
-            element: arrowElement
-          },
-          customStyle: {
-            order: 851,
-            enabled: true,
-            fn: data => this.customTooltipStyleModifier(data)
-          }
+        customStyle: {
+          order: 851,
+          enabled: true,
+          fn: data => this.customTooltipStyleModifier(data)
         }
       }
-    );
+    });
   }
 
   customTooltipStyleModifier(data) {
@@ -272,25 +289,22 @@ export class Walkthrough {
     // destroy existing helper
     this.destroyHelper();
 
-    this._helperInstance = new Popper(
-      element,
-      this._tooltipHelper,
-      {
-        placement: "bottom-start",
-        onCreate: () => {},
-        modifiers: {
-          computeStyle: {
-            gpuAcceleration: false
-          },
-          customStyle: {
-            order: 851,
-            enabled: true,
-            fn: (data: any) =>
-              this.customHelperStyleModifier(data, element, config)
-          }
+    this._helperInstance = new Popper(element, this._tooltipHelper, {
+      placement: "bottom-start",
+      eventsEnabled: false,
+      onCreate: () => {},
+      modifiers: {
+        computeStyle: {
+          gpuAcceleration: false
+        },
+        customStyle: {
+          order: 851,
+          enabled: true,
+          fn: (data: any) =>
+            this.customHelperStyleModifier(data, element, config)
         }
       }
-    );
+    });
   }
 
   customHelperStyleModifier(data: any, element: any, config: any) {
@@ -299,7 +313,7 @@ export class Walkthrough {
     const boundingRect = element.getBoundingClientRect();
     const { top, left, height, width } = boundingRect;
 
-    const paddingOffset = 10;
+    const paddingOffset = 0;
     const paddingLeftOffset = left > paddingOffset ? left - paddingOffset : 0;
     const effectiveHeight = top - paddingOffset > 0 ? top - paddingOffset : 0;
 
@@ -331,5 +345,9 @@ export class Walkthrough {
       };
     }
     return data;
+  }
+
+  recreateElement(element: any) {
+    element.parentNode.replaceChild(element.cloneNode(true), element);
   }
 }
