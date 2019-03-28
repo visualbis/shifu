@@ -16,6 +16,7 @@ export class Walkthrough {
   private _tooltipNumber: any = null;
   private _tooltipInstance: any = null;
   private _helperInstance: any = null;
+  private _onExit: any = null;
 
   constructor() {
     this._tooltipWindow = document.querySelector("#tooltip");
@@ -45,8 +46,9 @@ export class Walkthrough {
     });
   }
 
-  start(config: [any], { start }: any) {
+  start(config: [any], { start, onExit }: any) {
     this._config = config;
+    this._onExit = onExit;
     this._currentStepIndex = start || 0;
     this.goToStepNumber(this._currentStepIndex);
   }
@@ -78,6 +80,11 @@ export class Walkthrough {
       this._currentElement,
       this._config[this._currentStepIndex]
     );
+    //  Call onExit event
+    if (this._onExit) {
+      this._onExit();
+    }
+    
 
     // destroy existing tooltip
     this.destroyHelper();
