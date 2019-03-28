@@ -38,11 +38,9 @@ export class Walkthrough {
     const prevButton = this._tooltipPrevButton;
     const closeButton = this._tooltipCloseButton;
 
-    nextButton.addEventListener("click", () => this.goToNextStep());
-    prevButton.addEventListener("click", () => this.goToPreviousStep());
-    closeButton.addEventListener("click", () => {
-      this.exit();
-    });
+    nextButton.addEventListener("click", this.goToNextStep);
+    prevButton.addEventListener("click", this.goToPreviousStep);
+    closeButton.addEventListener("click", this.exit);
   }
 
   start(config: [any], { start }: any) {
@@ -180,26 +178,23 @@ export class Walkthrough {
   showTooltip(element: any, config: any) {
     const arrowElement = document.querySelector(".shifu-arrow");
 
-    this._tooltipInstance = new Popper(
-      element,
-      this._tooltipWindow,
-      {
-        placement: config.placement || "bottom",
-        onCreate: () => {
-          this.buildTooltipContent();
+    this._tooltipInstance = new Popper(element, this._tooltipWindow, {
+      placement: config.placement || "bottom",
+      eventsEnabled: false,
+      onCreate: () => {
+        this.buildTooltipContent();
+      },
+      modifiers: {
+        arrow: {
+          element: arrowElement
         },
-        modifiers: {
-          arrow: {
-            element: arrowElement
-          },
-          customStyle: {
-            order: 851,
-            enabled: true,
-            fn: data => this.customTooltipStyleModifier(data)
-          }
+        customStyle: {
+          order: 851,
+          enabled: true,
+          fn: data => this.customTooltipStyleModifier(data)
         }
       }
-    );
+    });
   }
 
   customTooltipStyleModifier(data) {
@@ -265,25 +260,22 @@ export class Walkthrough {
     // destroy existing helper
     this.destroyHelper();
 
-    this._helperInstance = new Popper(
-      element,
-      this._tooltipHelper,
-      {
-        placement: "bottom-start",
-        onCreate: () => {},
-        modifiers: {
-          computeStyle: {
-            gpuAcceleration: false
-          },
-          customStyle: {
-            order: 851,
-            enabled: true,
-            fn: (data: any) =>
-              this.customHelperStyleModifier(data, element, config)
-          }
+    this._helperInstance = new Popper(element, this._tooltipHelper, {
+      placement: "bottom-start",
+      eventsEnabled: false,
+      onCreate: () => {},
+      modifiers: {
+        computeStyle: {
+          gpuAcceleration: false
+        },
+        customStyle: {
+          order: 851,
+          enabled: true,
+          fn: (data: any) =>
+            this.customHelperStyleModifier(data, element, config)
         }
       }
-    );
+    });
   }
 
   customHelperStyleModifier(data: any, element: any, config: any) {
