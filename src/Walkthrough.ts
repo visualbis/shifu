@@ -13,6 +13,7 @@ export class Walkthrough {
   private _tooltipNextButton: any = null;
   private _tooltipPrevButton: any = null;
   private _tooltipCloseButton: any = null;
+  private _tooltipExitButton: any = null;
   private _tooltipNumber: any = null;
   private _tooltipInstance: any = null;
   private _helperInstance: any = null;
@@ -28,6 +29,7 @@ export class Walkthrough {
     this._tooltipTopOverlay = document.querySelector("#overlay-top");
     this._tooltipNextButton = this._tooltipWindow.querySelector(".next-step");
     this._tooltipPrevButton = this._tooltipWindow.querySelector(".prev-step");
+    this._tooltipExitButton = this._tooltipWindow.querySelector(".exit-step");
     this._tooltipCloseButton = this._tooltipWindow.querySelector(
       ".shifu-close"
     );
@@ -56,7 +58,7 @@ export class Walkthrough {
       resizeTimer = setTimeout(() => {
         // gotostep number again
         this.goToStepNumber(this._currentStepIndex);
-      }, 500);
+      }, this._resizeTimeout);
     };
   }
 
@@ -64,10 +66,12 @@ export class Walkthrough {
     const nextButton = this._tooltipNextButton;
     const prevButton = this._tooltipPrevButton;
     const closeButton = this._tooltipCloseButton;
+    const exitButton = this._tooltipExitButton;
 
     nextButton.addEventListener("click", () => this.goToNextStep());
     prevButton.addEventListener("click", () => this.goToPreviousStep());
     closeButton.addEventListener("click", () => this.exit());
+    exitButton.addEventListener("click", () => this.exit());
   }
 
   goToNextStep() {
@@ -161,7 +165,7 @@ export class Walkthrough {
     this.showHelper(highlightElement, stepConfig);
 
     // disable buttons as per config
-    const { disableNext, disablePrev } = stepConfig;
+    const { disableNext, disablePrev, highlight } = stepConfig;
 
     if (disableNext) {
       this._tooltipNextButton.setAttribute("disabled", "disabled");
@@ -175,6 +179,14 @@ export class Walkthrough {
     // Disable Prev button
     if (disablePrev || stepIndex === 0) {
       this._tooltipPrevButton.setAttribute("disabled", "disabled");
+    }
+
+    // Hide the highlight
+    const arrowElement = this._tooltipWindow.querySelector(".shifu-arrow");
+    if (highlight) {
+      arrowElement.classList.add("show-highlight");
+    } else {
+      arrowElement.classList.remove("show-highlight");
     }
 
     // Show the number
@@ -201,11 +213,10 @@ export class Walkthrough {
     this._tooltipNextButton.innerText = "Next";
     this._tooltipPrevButton.removeAttribute("disabled");
     this.hideOverlayVisibility();
-    // this.toggleTargetElementClass(element, "remove");
   }
 
   showTooltip(element: any, config: any) {
-    const arrowElement = document.querySelector(".shifu-arrow");
+    const arrowElement = this._tooltipWindow.querySelector(".shifu-arrow");
 
     this._tooltipInstance = new Popper(element, this._tooltipWindow, {
       placement: config.placement || "bottom",
@@ -214,6 +225,9 @@ export class Walkthrough {
         this.buildTooltipContent();
       },
       modifiers: {
+        computeStyle: {
+          gpuAcceleration: false
+        },
         arrow: {
           element: arrowElement
         },
@@ -313,7 +327,7 @@ export class Walkthrough {
     const boundingRect = element.getBoundingClientRect();
     const { top, left, height, width } = boundingRect;
 
-    const paddingOffset = 0;
+    const paddingOffset = 10;
     const paddingLeftOffset = left > paddingOffset ? left - paddingOffset : 0;
     const effectiveHeight = top - paddingOffset > 0 ? top - paddingOffset : 0;
 
