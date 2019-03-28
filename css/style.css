@@ -77,6 +77,7 @@
     font-weight: 400;
     color: #333;
     line-height: 30px;
+    padding-bottom: 4px;
 }
 .shifu-body .content {
     margin: 0;
@@ -137,6 +138,19 @@
     border: inherit;
     z-index: 110;
 }
+.shifu-arrow::after {
+    height: 10px;
+    width: 10px;
+    background-color: #0078d4;
+    border-radius: 96px;
+    position: absolute;
+    content: '';
+    top: -11px;
+    opacity: 0.6;
+    margin-left: -11px;
+    box-shadow: 0 0 0 rgba(0, 120, 212, 0.4);
+    animation: pulse 2s infinite;
+}
 .shifu-close {
     position: absolute;
     height: 24px;
@@ -193,4 +207,30 @@
     width: 100px;
     height: 100px;
     visibility: collapse;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(0, 120, 212, 0.4);
+  }
+  70% {
+      -webkit-box-shadow: 0 0 0 10px rgba(0, 120, 212, 0);
+  }
+  100% {
+      -webkit-box-shadow: 0 0 0 0 rgba(0, 120, 212, 0);
+  }
+}
+@keyframes pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgba(0, 120, 212, 0.4);
+    box-shadow: 0 0 0 0 rgba(0, 120, 212, 0.4);
+  }
+  70% {
+      -moz-box-shadow: 0 0 0 10px rgba(0, 120, 212, 0);
+      box-shadow: 0 0 0 10px rgba(0, 120, 212, 0);
+  }
+  100% {
+      -moz-box-shadow: 0 0 0 0 rgba(0, 120, 212, 0);
+      box-shadow: 0 0 0 0 rgba(0, 120, 212, 0);
+  }
 }
