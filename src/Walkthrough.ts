@@ -19,6 +19,7 @@ export class Walkthrough {
   private _helperInstance: any = null;
   private _onExit: any = () => {};
   private _resizeTimeout: number = 200;
+  private _isExited: Boolean = false;
 
   constructor() {
     this._tooltipWindow = document.querySelector("#tooltip");
@@ -44,11 +45,17 @@ export class Walkthrough {
     this._currentStepIndex = start || 0;
     this._resizeTimeout = resizeTimeout;
     this.goToStepNumber(this._currentStepIndex);
+    this._isExited = false;
   }
 
   handleWindowResize() {
     let resizeTimer;
     window.onresize = () => {
+      if (this._isExited) {
+        // if exited then dont do anything
+        return;
+      }
+
       clearTimeout(resizeTimer);
 
       // destroy existing tooltip
@@ -115,6 +122,7 @@ export class Walkthrough {
     this._onExit({ stepIndex: this._currentStepIndex });
 
     this._currentStepIndex = 0;
+    this._isExited = true;
     return;
   }
 
@@ -248,7 +256,7 @@ export class Walkthrough {
       ...styles,
       top: inverted ? styles.top - 32 : styles.top + 16,
       visibility: "visible",
-      willChange: "unset", // disabling due to scaling
+      willChange: "unset" // disabling due to scaling
     };
 
     // apply styles to the arrow
