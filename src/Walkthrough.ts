@@ -247,7 +247,8 @@ export class Walkthrough {
     data.styles = {
       ...styles,
       top: inverted ? styles.top - 32 : styles.top + 16,
-      visibility: "visible"
+      visibility: "visible",
+      willChange: "unset", // disabling due to scaling
     };
 
     // apply styles to the arrow
@@ -347,6 +348,12 @@ export class Walkthrough {
     this._tooltipTopOverlay.style.height = effectiveHeight + "px";
     this._tooltipTopOverlay.style.width = width + paddingOffset * 2 + "px";
 
+    // disable willChange
+    data.styles = {
+      ...data.styles,
+      willChange: "unset"
+    };
+
     if (!interactive) {
       // render a dummy overlaying the element if it is not interactive
       data.styles = {
@@ -358,6 +365,7 @@ export class Walkthrough {
         visibility: "visible"
       };
     }
+
     return data;
   }
 
