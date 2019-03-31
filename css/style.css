@@ -6,7 +6,6 @@
     left: 0;
     right: 0;
     visibility: collapse;
-    background-color: rgba(20, 20, 20, 0.8);
     transition: 0.3s visibility;
     z-index: 100;
 }
@@ -17,7 +16,6 @@
     position: absolute;
     z-index: 1000;
     display: block;
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAASWSDLAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAACFQTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAbdFIwQAAAAt0Uk5TzHqbADG8ixgIOaviFPSDAAAAXUlEQVR4nHXLuw2AMAyEYTs8FkhDzwg3gidAomGD9BkhI7ACg4KQwl2Dq//TyWY8Z6YMduDD9nTHXEEsII5GTAHiAtGHFzsEp8CboEBQBQmCUbEqQiAvMFcMv8iCG6TGKaI5WxZzAAAAAElFTkSuQmCC');
     background-size: 4px;
     background-position: left top;
     background-repeat: no-repeat;
@@ -50,7 +48,7 @@
     width: 240px;
     background-color: #FFF;
     border-radius: 2px;
-    box-shadow: 0 0 4px #DDD;
+    box-shadow: 0 0 8px 2px rgb(1, 120, 212, 0.8);
     visibility: collapse;
     z-index: 110;
     font-family: "Segoe UI Web (West European)",Segoe UI,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;
@@ -88,7 +86,7 @@
     color: #333;
 }
 .shifu-body .content ul, .shifu-body .content p {
-    font-size: 12px !important;
+    font-size: 13px !important;
     line-height: 18px;
     font-weight: 400;
     color: #333;
@@ -214,7 +212,8 @@
     position: absolute;
     top: 60px;
     left: 20px;
-    box-shadow: 0 0 16px #222;
+    /* box-shadow: 0 0 0px 2px rgb(100, 100, 100, 0.4); */
+    border-radius: 2px;
     z-index: 100;
     width: 100px;
     height: 100px;

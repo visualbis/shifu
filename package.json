@@ -1,6 +1,6 @@
 {
   "name": "@visualbi/shifu",
-  "version": "0.1.0-rc10",
+  "version": "0.1.0-rc11",
   "description": "ShifuJS is a guided tour plugin, that helps you build great walkthroughs and tutorials for your components",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
