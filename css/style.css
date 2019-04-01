@@ -175,6 +175,7 @@
     align-items: center;
     justify-content: center;
     transition: 0.2s all;
+    display: none;
 }
 .shifu-number {
     position: absolute;
@@ -193,6 +194,7 @@
     font-size: 14px;
     justify-content: center;
     transition: 0.2s all;
+    visibility: collapse;
 }
 .shifu-close:hover {
     opacity: 1.0;

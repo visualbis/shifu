@@ -198,6 +198,7 @@ export class Walkthrough {
     }
 
     // Show the number
+    this._tooltipNumber.style.visibility = "visible";
     this._tooltipNumber.innerText = stepIndex + 1;
   }
 
@@ -214,9 +215,10 @@ export class Walkthrough {
       return;
     }
 
-    this._tooltipInstance.destroy();
     this._tooltipWindow.style.visibility = "hidden";
     this._tooltipHelper.style.visibility = "hidden";
+    this._tooltipNumber.style.visibility = "hidden";
+    this._tooltipInstance.destroy();
     this._tooltipNextButton.removeAttribute("disabled");
     this._tooltipNextButton.innerText = "Next";
     this._tooltipPrevButton.removeAttribute("disabled");
