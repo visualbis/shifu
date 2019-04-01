@@ -48,7 +48,7 @@
     width: 240px;
     background-color: #FFF;
     border-radius: 2px;
-    box-shadow: 0 0 8px 2px rgb(1, 120, 212, 0.8);
+    box-shadow: 0 0.2rem 0.5rem rgba(33,33,33,0.6);
     visibility: collapse;
     z-index: 110;
     font-family: "Segoe UI Web (West European)",Segoe UI,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;
