@@ -16,7 +16,9 @@
     "prod": "npm run gen-version && rimraf ./dist/* && npm run build:types && npm run webpack -- --env.mode prod && npm run clean-types",
     "prepublishOnly": "npm run prod",
     "npm-publish-dry": "npm publish --access restricted --dry-run",
-    "npm-publish": "npm publish --access restricted --tag alpha"
+    "npm-publish": "npm publish --access restricted --tag alpha",
+    "powerbi": "test_in_powerbi.bat"
+
   },
   "author": "VisualBI Solutions Inc",
   "license": "MIT",
@@ -40,5 +42,8 @@
     "webpack": "^4.26.0",
     "webpack-cli": "^3.1.2",
     "webpack-merge": "^4.1.4"
+  },
+  "dependencies": {
+    "core-js": "^2.6.5"
   }
 }
