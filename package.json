@@ -17,7 +17,6 @@
     "prepublishOnly": "npm run prod",
     "npm-publish-dry": "npm publish --access restricted --dry-run",
     "npm-publish": "npm publish --access restricted --tag alpha"
-
   },
   "author": "VisualBI Solutions Inc",
   "license": "MIT",
