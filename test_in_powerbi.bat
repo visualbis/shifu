@@ -1,0 +1,1 @@
+xcopy /s C:\Users\raghu\Desktop\workspace\visualBI\shifu\dist C:\Users\raghu\Desktop\workspace\visualBI\VDTPowerBI\node_modules\@visualbi\shifu\dist

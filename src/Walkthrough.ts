@@ -171,6 +171,7 @@ export class Walkthrough {
     this.destroyHelper();
     this.destroyTooltip();
 
+
     // recreate dom elements to renew handlers
     this.recreateElement(this._tooltipNextButton);
     this.recreateElement(this._tooltipPrevButton);
@@ -178,7 +179,7 @@ export class Walkthrough {
 
     //  Call onExit event
     this._onExit({ stepIndex: this._currentStepIndex });
-
+    this.destroy();
     this._currentStepIndex = 0;
     this._isExited = true;
     return;
@@ -201,6 +202,16 @@ export class Walkthrough {
     // decrement step
     this._currentStepIndex -= 1;
     this.goToStepNumber(this._currentStepIndex);
+  }
+
+  destroy() {
+    console.log("destroy");
+    this._tooltipWindow.remove();
+    this._tooltipBottomOverlay.remove();
+    this._tooltipTopOverlay.remove();
+    this._tooltipLeftOverlay.remove();
+    this._tooltipRightOverlay.remove();
+    this._tooltipHelper.remove();
   }
 
   goToStepNumber(stepIndex: number) {
