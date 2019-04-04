@@ -19,15 +19,71 @@ export class Walkthrough {
   private _helperInstance: any = null;
   private _onExit: any = () => {};
   private _resizeTimeout: number = 200;
+  private _container: HTMLDivElement;
   private _isExited: Boolean = false;
 
-  constructor() {
-    this._tooltipWindow = document.querySelector("#tooltip");
-    this._tooltipHelper = document.querySelector("#helper");
-    this._tooltipRightOverlay = document.querySelector("#overlay-right");
-    this._tooltipBottomOverlay = document.querySelector("#overlay-bottom");
-    this._tooltipLeftOverlay = document.querySelector("#overlay-left");
-    this._tooltipTopOverlay = document.querySelector("#overlay-top");
+  constructor(container: HTMLDivElement) {
+    this._container = container;
+  }
+
+  init() {
+    this._tooltipWindow = document.createElement("div");
+    this._tooltipWindow.setAttribute("id", "tooltip");
+    this._tooltipWindow.classList.add("shifu-window");
+    this._tooltipWindow.innerHTML = `
+        <div class="shifu-close">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACLSURBVEhL7Y9RCoAwDEN3Ce+o6HG9jyZIocgsSzf/9iA4ZXnBMsmwIstzlGCH3ZAduZATUUZ4lx126fjEX2wdkTtKQZYbLcW03IgE3XKjJhomN97CoXLDjwyXk18HvJxPf+4eecv5XvuWIhJ1j7QI0iNKUR6RC0DqHIj8y8CP0BGyIYrcYIfdiUIpN1CFVil4ciYWAAAAAElFTkSuQmCC" alt="Close"/>
+        </div>
+        <div class="shifu-number" style="
+        visibility: visible;">1</div>
+        <div class="shifu-arrow"></div>
+        <div class="shifu-body">
+            <h4>Callout title is here</h4>
+            <div class="content">Message body is optional. If help documentation is available, consider adding a link to learn more at the
+                bottom.
+            </div>
+        </div>
+        <div class="shifu-footer">
+            <button class="exit-step">Exit</button>
+            <div class="shifu-nav">
+                <button class="prev-step">Previous</button>
+                <button class="next-step">Next</button>
+            </div>
+        </div>
+    `;
+
+    this._tooltipHelper = document.createElement("div");
+    this._tooltipHelper.setAttribute("id", "helper");
+    this._tooltipHelper.classList.add("shifu-helper");
+
+    this._tooltipTopOverlay = document.createElement("div");
+    this._tooltipTopOverlay.setAttribute("id", "overlay-top");
+    this._tooltipTopOverlay.classList.add("shifu-overlay");
+    this._tooltipTopOverlay.classList.add("top");
+
+
+    this._tooltipBottomOverlay = document.createElement("div");
+    this._tooltipBottomOverlay.setAttribute("id", "overlay-bottom");
+    this._tooltipBottomOverlay.classList.add("shifu-overlay");
+    this._tooltipBottomOverlay.classList.add("bottom");
+
+    this._tooltipLeftOverlay = document.createElement("div");
+    this._tooltipLeftOverlay.setAttribute("id", "overlay-left");
+    this._tooltipLeftOverlay.classList.add("shifu-overlay");
+    this._tooltipLeftOverlay.classList.add("left");
+
+    this._tooltipRightOverlay = document.createElement("div");
+    this._tooltipRightOverlay.setAttribute("id", "overlay-right");
+    this._tooltipRightOverlay.classList.add("shifu-overlay");
+    this._tooltipRightOverlay.classList.add("right");
+
+    this._container.appendChild(this._tooltipWindow);
+    this._container.appendChild(this._tooltipHelper);
+    this._container.appendChild(this._tooltipTopOverlay);
+    this._container.appendChild(this._tooltipBottomOverlay);
+    this._container.appendChild(this._tooltipLeftOverlay);
+    this._container.appendChild(this._tooltipRightOverlay);
+
     this._tooltipNextButton = this._tooltipWindow.querySelector(".next-step");
     this._tooltipPrevButton = this._tooltipWindow.querySelector(".prev-step");
     this._tooltipExitButton = this._tooltipWindow.querySelector(".exit-step");
@@ -35,11 +91,13 @@ export class Walkthrough {
       ".shifu-close"
     );
     this._tooltipNumber = this._tooltipWindow.querySelector(".shifu-number");
+    
     this.hookListeners();
     this.handleWindowResize();
   }
 
   start(config: [any], { start, onExit, resizeTimeout }: any) {
+    this.init();
     this._config = config;
     this._onExit = onExit;
     this._currentStepIndex = start || 0;
@@ -113,6 +171,7 @@ export class Walkthrough {
     this.destroyHelper();
     this.destroyTooltip();
 
+
     // recreate dom elements to renew handlers
     this.recreateElement(this._tooltipNextButton);
     this.recreateElement(this._tooltipPrevButton);
@@ -120,7 +179,7 @@ export class Walkthrough {
 
     //  Call onExit event
     this._onExit({ stepIndex: this._currentStepIndex });
-
+    this.destroy();
     this._currentStepIndex = 0;
     this._isExited = true;
     return;
@@ -143,6 +202,15 @@ export class Walkthrough {
     // decrement step
     this._currentStepIndex -= 1;
     this.goToStepNumber(this._currentStepIndex);
+  }
+
+  destroy() {
+    this._tooltipWindow.remove();
+    this._tooltipBottomOverlay.remove();
+    this._tooltipTopOverlay.remove();
+    this._tooltipLeftOverlay.remove();
+    this._tooltipRightOverlay.remove();
+    this._tooltipHelper.remove();
   }
 
   goToStepNumber(stepIndex: number) {

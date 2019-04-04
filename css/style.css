@@ -122,7 +122,7 @@
     color: #0078d4;
 }
 .shifu-window button.exit-step {
-    color: #989898;
+    color: rgba(232, 17, 35, 0.8);
 }
 .shifu-window button.exit-step:hover {
     color: rgba(232, 17, 35, 0.8);
