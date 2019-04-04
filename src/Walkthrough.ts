@@ -20,11 +20,11 @@ export class Walkthrough {
   private _onExit: any = () => {};
   private _resizeTimeout: number = 200;
   private container: HTMLDivElement;
+  private _isExited: Boolean = false;
 
   constructor(container: HTMLDivElement) {
     this.container = container;
   }
-
 
   init() {
     this._tooltipWindow = document.createElement("div");
@@ -53,7 +53,7 @@ export class Walkthrough {
     `;
 
     this._tooltipHelper = document.createElement("div");
-    this._tooltipHelper.setAttribute("id", "this._tooltipHelper");
+    this._tooltipHelper.setAttribute("id", "helper");
     this._tooltipHelper.classList.add("shifu-helper");
 
     this._tooltipTopOverlay = document.createElement("div");
@@ -103,11 +103,17 @@ export class Walkthrough {
     this._currentStepIndex = start || 0;
     this._resizeTimeout = resizeTimeout;
     this.goToStepNumber(this._currentStepIndex);
+    this._isExited = false;
   }
 
   handleWindowResize() {
     let resizeTimer;
     window.onresize = () => {
+      if (this._isExited) {
+        // if exited then dont do anything
+        return;
+      }
+
       clearTimeout(resizeTimer);
 
       // destroy existing tooltip
@@ -174,6 +180,7 @@ export class Walkthrough {
     this._onExit({ stepIndex: this._currentStepIndex });
 
     this._currentStepIndex = 0;
+    this._isExited = true;
     return;
   }
 
@@ -249,6 +256,7 @@ export class Walkthrough {
     }
 
     // Show the number
+    this._tooltipNumber.style.visibility = "visible";
     this._tooltipNumber.innerText = stepIndex + 1;
   }
 
@@ -265,9 +273,10 @@ export class Walkthrough {
       return;
     }
 
-    this._tooltipInstance.destroy();
     this._tooltipWindow.style.visibility = "hidden";
     this._tooltipHelper.style.visibility = "hidden";
+    this._tooltipNumber.style.visibility = "hidden";
+    this._tooltipInstance.destroy();
     this._tooltipNextButton.removeAttribute("disabled");
     this._tooltipNextButton.innerText = "Next";
     this._tooltipPrevButton.removeAttribute("disabled");
@@ -307,7 +316,7 @@ export class Walkthrough {
       ...styles,
       top: inverted ? styles.top - 32 : styles.top + 16,
       visibility: "visible",
-      willChange: "unset", // disabling due to scaling
+      willChange: "unset" // disabling due to scaling
     };
 
     // apply styles to the arrow
