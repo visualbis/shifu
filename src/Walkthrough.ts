@@ -19,11 +19,11 @@ export class Walkthrough {
   private _helperInstance: any = null;
   private _onExit: any = () => {};
   private _resizeTimeout: number = 200;
-  private container: HTMLDivElement;
+  private _container: HTMLDivElement;
   private _isExited: Boolean = false;
 
   constructor(container: HTMLDivElement) {
-    this.container = container;
+    this._container = container;
   }
 
   init() {
@@ -77,12 +77,12 @@ export class Walkthrough {
     this._tooltipRightOverlay.classList.add("shifu-overlay");
     this._tooltipRightOverlay.classList.add("right");
 
-    this.container.appendChild(this._tooltipWindow);
-    this.container.appendChild(this._tooltipHelper);
-    this.container.appendChild(this._tooltipTopOverlay);
-    this.container.appendChild(this._tooltipBottomOverlay);
-    this.container.appendChild(this._tooltipLeftOverlay);
-    this.container.appendChild(this._tooltipRightOverlay);
+    this._container.appendChild(this._tooltipWindow);
+    this._container.appendChild(this._tooltipHelper);
+    this._container.appendChild(this._tooltipTopOverlay);
+    this._container.appendChild(this._tooltipBottomOverlay);
+    this._container.appendChild(this._tooltipLeftOverlay);
+    this._container.appendChild(this._tooltipRightOverlay);
 
     this._tooltipNextButton = this._tooltipWindow.querySelector(".next-step");
     this._tooltipPrevButton = this._tooltipWindow.querySelector(".prev-step");
@@ -205,7 +205,6 @@ export class Walkthrough {
   }
 
   destroy() {
-    console.log("destroy");
     this._tooltipWindow.remove();
     this._tooltipBottomOverlay.remove();
     this._tooltipTopOverlay.remove();
